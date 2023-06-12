@@ -1,31 +1,18 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
-
-  const lockedAmount = hre.ethers.utils.parseEther("1");
-
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  console.log('Start Smart Contract deployment');
+  // create a new instance of the contract factory for the HelloWorld contract
+  const Contract = await hre.ethers.getContractFactory("HelloWorld");
+  const registry =  await Contract.deploy();
+  console.log(`HelloWorld Smart Contract Address: ${registry.address}`);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+/* calls main() when node is run directly from command line
+   if no more async operations are pending, exits with 0. If exception 
+   occurs - exits with error 1 - Uncaught Fatal Exception.
+*/
+if (require.main === module) {
+  main().then(() => process.exit(0))
+    .catch(error => { console.error(error); process.exit(1); }); // more descriptive error
+}

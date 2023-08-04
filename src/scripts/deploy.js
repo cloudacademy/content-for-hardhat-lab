@@ -2,9 +2,8 @@ const hre = require("hardhat");
 
 async function main() {
   console.log('Start Smart Contract deployment');
-  // create a new instance of the contract factory for the HelloWorld contract
-  const Contract = await hre.ethers.getContractFactory("HelloWorld");
-  const registry =  await Contract.deploy();
+  // Step3: Use hardhat library to get Contract Factory of HelloWorld smart contract. 
+  // Deploy it to local node
   console.log(`HelloWorld Smart Contract Address: ${registry.address}`);
 }
 

@@ -7,5 +7,3 @@ WORKDIR /root/lab/
 
 # RUN npm install jest hardhat @nomicfoundation/hardhat-toolbox solc
 COPY src ./src
-
-RUN cd src && npm install
